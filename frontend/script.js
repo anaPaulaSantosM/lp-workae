@@ -13,8 +13,24 @@ document
 
     const result = await response.json();
 
-    alert(result.message || result.error);
-    e.target.reset();
+    if (response.ok) {
+      const popup = document.getElementById('popup');
+      popup.style.display = 'flex';
+      e.target.reset();
+
+      const closeBtn = document.querySelector('.popup-close');
+      closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+      });
+
+      popup.addEventListener('click', (event) => {
+        if (event.target === popup) {
+          popup.style.display = 'none';
+        }
+      });
+    } else {
+      alert(result.message || result.error);
+    }
   });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -44,5 +60,5 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(() => {
     const newIndex = (currentIndex + 1) % slide.length;
     goToSlide(newIndex);
-  }, 5000); // Muda de slide a cada 5 segundos
+  }, 5000);
 });
